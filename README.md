@@ -1,91 +1,116 @@
-# Introduction-to-Programming-Project
-telegram bot
-"""
-bot.py — FitBot entry point.
+# 🏋️ FitBot — Fitness Telegram Bot
 
-Run
+A feature-rich Telegram bot for tracking workouts, browsing exercise tips, and logging fitness progress.
+
 ---
-    pip install -r requirements.txt
-    BOT_TOKEN=<your_token> python bot.py
 
-Environment
------------
-BOT_TOKEN : str("8660406856:AAEFF28EQxjkDU_Nd8WbRr806_YMgC9k5UE")
-LOG_LEVEL : str  (optional) Python log level, default INFO
-"""
+## Features
 
-from __future__ import annotations
+| Command | Description |
+|---|---|
+| `/start` | Welcome message and main menu |
+| `/workout` | Browse beginner, intermediate, and cardio plans |
+| `/exercise` | Explore the exercise library by muscle group |
+| `/log` | Log a workout session |
+| `/progress` | View your last 10 logged workouts |
 
-import logging
-import os
-from datetime import time as dtime
+---
 
-from telegram.ext import Application
+## Setup Instructions
 
-import database as db
-from handlers import register_handlers, send_daily_reminder
+### 1. Clone the repository
 
-# ─── Logging setup ────────────────────────────────────────────────────────────
+```bash
+git clone https://github.com/ayaulymzhansha55/Introduction-to-Programming-Project.git
+cd Introduction-to-Programming-Project
+```
 
-logging.basicConfig(
-    format="%(asctime)s | %(levelname)-8s | %(name)s — %(message)s",
-    level=getattr(logging, os.getenv("LOG_LEVEL", "INFO").upper(), logging.INFO),
-)
-logger = logging.getLogger(__name__)
+### 2. Create a virtual environment
 
+```bash
+python -m venv venv
+source venv/bin/activate      # macOS/Linux
+venv\Scripts\activate         # Windows
+```
 
-# ─── Scheduler helper ─────────────────────────────────────────────────────────
+### 3. Install dependencies
 
-def _schedule_reminders(app: Application) -> None:
-    """
-    Load all saved reminders from the DB and register them with the job queue.
+```bash
+pip install -r requirements.txt
+```
 
-    Each reminder is a daily job firing at the user's chosen UTC time.
-    """
-    reminders = db.get_all_reminders()
-    for row in reminders:
-        user_id = row["user_id"]
-        h, m = map(int, row["time_utc"].split(":"))
-        app.job_queue.run_daily(
-            callback=send_daily_reminder,
-            time=dtime(h, m),
-            data=user_id,
-            name=f"reminder_{user_id}",
-        )
-    logger.info("Scheduled %d reminder(s)", len(reminders))
+### 4. Configure the bot token
 
+```bash
+cp .env.example .env
+```
 
-# ─── Main ─────────────────────────────────────────────────────────────────────
+Open `.env` and paste your token from [@BotFather](https://t.me/BotFather):
 
-def main() -> None:
-    """Initialise the bot and start polling."""
-    token = os.environ.get("BOT_TOKEN")
-    if not token:
-        raise EnvironmentError(
-            "BOT_TOKEN environment variable is not set. "
-            "Get a token from @BotFather on Telegram."
-        )
+```
+BOT_TOKEN=your_telegram_bot_token_here
+```
 
-    # Initialise database
-    db.init_db()
+> ⚠️ **Never commit your `.env` file** — it's listed in `.gitignore`.
 
-    # Build the application
-    app = (
-        Application.builder()
-        .token(token)
-        .build()
-    )
+### 5. Run the bot
 
-    # Attach all command / conversation handlers
-    register_handlers(app)
+```bash
+python main.py
+```
 
-    # Schedule persisted reminders
-    _schedule_reminders(app)
+---
 
-    logger.info("FitBot is running — press Ctrl-C to stop")
-     app.run_polling(drop_pending_updates=True)
+## Project Structure
 
+```
+fitness_bot/
+├── main.py              # Entry point — registers all handlers
+├── config.py            # Loads BOT_TOKEN from environment
+├── database.py          # SQLite database setup and queries
+├── handlers/
+│   ├── __init__.py
+│   ├── start.py         # /start command
+│   ├── workout.py       # /workout command + inline callbacks
+│   ├── exercise.py      # /exercise command + inline callbacks
+│   └── progress.py      # /log and /progress commands
+├── requirements.txt     # Project dependencies
+├── .env.example         # Token template (safe to commit)
+├── .gitignore           # Excludes .env and database files
+└── README.md
+```
 
-if __name__ == "__main__":
-    main()
+---
 
+## How to Log a Workout
+
+```
+/log <exercise> <sets> <reps> [weight_kg] [notes]
+```
+
+**Examples:**
+
+```
+/log Squat 4 8 100
+/log Plank 3 60 0 felt really stable today
+/log "Bench Press" 3 10 75
+```
+
+---
+
+## Dependencies
+
+| Package | Version | Purpose |
+|---|---|---|
+| `python-telegram-bot` | 21.3 | Telegram Bot API wrapper |
+| `python-dotenv` | 1.0.1 | Load `.env` variables |
+
+SQLite is used for the database — no extra installation needed (built into Python).
+
+---
+
+## Team Members
+
+- Member 1 — ...
+- Member 2 — ...
+- Member 3 — ...
