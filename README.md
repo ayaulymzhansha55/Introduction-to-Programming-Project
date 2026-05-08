@@ -1,116 +1,95 @@
-# 🏋️ FitBot — Fitness Telegram Bot
+# 🤖 FitBot — Telegram Fitness Assistant
 
-A feature-rich Telegram bot for tracking workouts, browsing exercise tips, and logging fitness progress.
+A Telegram bot that helps users stay fit and motivated through workout plans, water intake tracking, goal setting, and daily motivational quotes.
+
+Built with Python and [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI).
 
 ---
 
-## Features
+## ✨ Features
 
-| Command | Description |
+| Feature | Description |
 |---|---|
-| `/start` | Welcome message and main menu |
-| `/workout` | Browse beginner, intermediate, and cardio plans |
-| `/exercise` | Explore the exercise library by muscle group |
-| `/log` | Log a workout session |
-| `/progress` | View your last 10 logged workouts |
+| 🏋️ **Workout Plans** | Beginner / Intermediate / Advanced weekly training plans |
+| 💧 **Water Reminder** | Track daily water intake with a visual progress bar |
+| 🎯 **Goal Tracker** | Set a personal fitness goal and mark it complete |
+| ✨ **Daily Quote** | Random motivational fitness quotes with a refresh button |
 
 ---
 
-## Setup Instructions
+## 🚀 Setup Instructions
 
-### 1. Clone the repository
+### 1. Prerequisites
+- Python 3.9 or higher → [python.org](https://python.org)
+- A Telegram account
 
+### 2. Get your Bot Token
+1. Open Telegram → search **@BotFather**
+2. Send `/newbot` and follow the steps
+3. Copy the token you receive (looks like `7123456789:AAFxxx...`)
+
+### 3. Clone the repository
 ```bash
-git clone https://github.com/ayaulymzhansha55/Introduction-to-Programming-Project.git
-cd Introduction-to-Programming-Project
+git clone https://github.com/YOUR_USERNAME/fitness-bot.git
+cd fitness-bot
 ```
 
-### 2. Create a virtual environment
-
-```bash
-python -m venv venv
-source venv/bin/activate      # macOS/Linux
-venv\Scripts\activate         # Windows
-```
-
-### 3. Install dependencies
-
+### 4. Install dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure the bot token
+### 5. Add your token
+Open `config.py` and paste your token:
+```python
+BOT_TOKEN = "YOUR_BOT_TOKEN_HERE"
+```
 
+### 6. Run the bot
 ```bash
-cp .env.example .env
+python bot.py
 ```
 
-Open `.env` and paste your token from [@BotFather](https://t.me/BotFather):
+You should see: `🤖 FitBot is running...`  
+Open Telegram, find your bot, and send `/start`!
+
+---
+
+## 📁 Project Structure
 
 ```
-BOT_TOKEN=your_telegram_bot_token_here
-```
-
-> ⚠️ **Never commit your `.env` file** — it's listed in `.gitignore`.
-
-### 5. Run the bot
-
-```bash
-python main.py
+fitness-bot/
+├── bot.py              # Entry point — registers all handlers
+├── config.py           # Bot token configuration
+├── requirements.txt    # Python dependencies
+├── README.md           # This file
+└── handlers/
+    ├── __init__.py
+    ├── workout.py      # Workout Plans feature
+    ├── water.py        # Water Intake Tracker
+    ├── goals.py        # Goal Tracker
+    └── quote.py        # Daily Motivational Quote
 ```
 
 ---
 
-## Project Structure
+## 👥 Team Members
 
-```
-fitness_bot/
-├── main.py              # Entry point — registers all handlers
-├── config.py            # Loads BOT_TOKEN from environment
-├── database.py          # SQLite database setup and queries
-├── handlers/
-│   ├── __init__.py
-│   ├── start.py         # /start command
-│   ├── workout.py       # /workout command + inline callbacks
-│   ├── exercise.py      # /exercise command + inline callbacks
-│   └── progress.py      # /log and /progress commands
-├── requirements.txt     # Project dependencies
-├── .env.example         # Token template (safe to commit)
-├── .gitignore           # Excludes .env and database files
-└── README.md
-```
+| Name | Contribution |
+|---|---|
+| Member 1 | `handlers/workout.py`, bot structure |
+| Member 2 | `handlers/water.py`, `handlers/goals.py` |
+| Member 3 | `handlers/quote.py`, README, testing |
 
 ---
 
-## How to Log a Workout
+## 🛠 Dependencies
 
-```
-/log <exercise> <sets> <reps> [weight_kg] [notes]
-```
-
-**Examples:**
-
-```
-/log Squat 4 8 100
-/log Plank 3 60 0 felt really stable today
-/log "Bench Press" 3 10 75
-```
+- `pyTelegramBotAPI==4.21.0` — Telegram Bot API wrapper
 
 ---
 
-## Dependencies
+## 📝 Notes
 
-| Package | Version | Purpose |
-|---|---|---|
-| `python-telegram-bot` | 21.3 | Telegram Bot API wrapper |
-| `python-dotenv` | 1.0.1 | Load `.env` variables |
-
-SQLite is used for the database — no extra installation needed (built into Python).
-
----
-
-## Team Members
-
-- Member 1 — ...
-- Member 2 — ...
-- Member 3 — ...
+- Data is stored in-memory (resets when bot restarts). A database like SQLite can be added for persistence.
+- The bot uses long-polling (`infinity_polling`) for simplicity.

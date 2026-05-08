@@ -1,11 +1,11 @@
 """
-Configuration file for the Fitness Bot.
-Store sensitive values in environment variables or a .env file.
+config.py — Bot configuration.
+Replace the placeholder with your real BotFather token.
 """
 
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-BOT_TOKEN: str = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+# ── Token ─────────────────────────────────────────────────────────────────────
+# Option 1 (recommended): set an environment variable called BOT_TOKEN
+# Option 2 (quick): paste your token directly in the string below
+BOT_TOKEN = os.getenv("BOT_TOKEN", "7897549294:AAFut-MPfJkVl-qlmvql0TVsJHlOyE8MaDY")
