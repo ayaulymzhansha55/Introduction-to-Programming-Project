@@ -6,7 +6,7 @@ Sends a random quote with a fun fitness emoji theme.
 import random
 from telebot import types
 
-# ── Quote bank ────────────────────────────────────────────────────────────────
+
 
 QUOTES = [
     ("The only bad workout is the one that didn't happen.", "Unknown"),
@@ -34,7 +34,7 @@ QUOTES = [
 EMOJIS = ["🔥", "💪", "🏆", "⚡", "🚀", "🌟", "🎯", "🦾", "💥", "🏅"]
 
 
-# ── Public API ────────────────────────────────────────────────────────────────
+
 
 def send_quote(bot, message):
     """Send a random motivational fitness quote."""

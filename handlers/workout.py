@@ -5,7 +5,7 @@ Offers Beginner / Intermediate / Advanced weekly plans.
 
 from telebot import types
 
-# ── Data ──────────────────────────────────────────────────────────────────────
+ 
 
 PLANS = {
     "beginner": {
@@ -38,7 +38,7 @@ PLANS = {
 }
 
 
-# ── Keyboard ──────────────────────────────────────────────────────────────────
+
 
 def _level_keyboard():
     """Inline keyboard for choosing a fitness level."""
@@ -51,7 +51,7 @@ def _level_keyboard():
     return markup
 
 
-# ── Public API ────────────────────────────────────────────────────────────────
+
 
 def send_level_menu(bot, message):
     """Ask the user to pick their fitness level."""

@@ -8,7 +8,7 @@ from telebot import types
 
 DAILY_GOAL = 8  # glasses per day
 
-# ── In-memory state ───────────────────────────────────────────────────────────
+
 # { chat_id: {"glasses": int, "awaiting_input": bool} }
 _state: dict = {}
 
@@ -20,7 +20,7 @@ def _get_state(chat_id: int) -> dict:
     return _state[chat_id]
 
 
-# ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _progress_bar(glasses: int, goal: int = DAILY_GOAL) -> str:
     """Return a visual progress bar, e.g. '████░░░░ 4/8'."""
@@ -40,7 +40,7 @@ def _water_keyboard(glasses: int) -> types.InlineKeyboardMarkup:
     return markup
 
 
-# ── Public API ────────────────────────────────────────────────────────────────
+
 
 def is_waiting_for_input(chat_id: int) -> bool:
     """True when we're expecting a free-text number from the user."""
