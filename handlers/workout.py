@@ -2,11 +2,10 @@
 handlers/workout.py — Workout Plans feature.
 Offers Beginner / Intermediate / Advanced weekly plans.
 """
-
-from telebot import types
-
  
-
+from telebot import types
+ 
+ 
 PLANS = {
     "beginner": {
         "title": "🟢 Beginner Plan (3 days/week)",
@@ -36,10 +35,8 @@ PLANS = {
         ],
     },
 }
-
-
-
-
+ 
+ 
 def _level_keyboard():
     """Inline keyboard for choosing a fitness level."""
     markup = types.InlineKeyboardMarkup(row_width=3)
@@ -49,10 +46,8 @@ def _level_keyboard():
         types.InlineKeyboardButton("🔴 Advanced", callback_data="workout_advanced"),
     )
     return markup
-
-
-
-
+ 
+ 
 def send_level_menu(bot, message):
     """Ask the user to pick their fitness level."""
     bot.send_message(
@@ -60,8 +55,8 @@ def send_level_menu(bot, message):
         "💪 Choose your fitness level:",
         reply_markup=_level_keyboard(),
     )
-
-
+ 
+ 
 def handle_callback(bot, call):
     """
     Handle inline button presses for workout plans.
@@ -69,15 +64,15 @@ def handle_callback(bot, call):
     """
     level = call.data.split("_", 1)[1]
     plan = PLANS.get(level)
-
+ 
     if not plan:
         bot.answer_callback_query(call.id, "Unknown level.")
         return
-
+ 
     lines = [f"*{plan['title']}*\n"]
     for day, exercises in plan["days"]:
         lines.append(f"📅 *{day}*\n{exercises}\n")
-
+ 
     bot.edit_message_text(
         "\n".join(lines),
         chat_id=call.message.chat.id,
