@@ -3,15 +3,9 @@ handlers/water.py — Water Intake Reminder & Tracker.
 Tracks how many glasses of water a user has drunk today.
 Goal: 8 glasses per day (configurable via DAILY_GOAL).
 """
-
 from telebot import types
-
-DAILY_GOAL = 8  # glasses per day
-
-# ── In-memory state ───────────────────────────────────────────────────────────
-# { chat_id: {"glasses": int, "awaiting_input": bool} }
+DAILY_GOAL = 8  
 _state: dict = {}
-
 
 def _get_state(chat_id: int) -> dict:
     """Return (or create) the water state for a chat."""
@@ -19,15 +13,11 @@ def _get_state(chat_id: int) -> dict:
         _state[chat_id] = {"glasses": 0, "awaiting_input": False}
     return _state[chat_id]
 
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
 def _progress_bar(glasses: int, goal: int = DAILY_GOAL) -> str:
     """Return a visual progress bar, e.g. '████░░░░ 4/8'."""
     filled = min(glasses, goal)
     bar = "█" * filled + "░" * (goal - filled)
     return f"{bar} {glasses}/{goal}"
-
 
 def _water_keyboard(glasses: int) -> types.InlineKeyboardMarkup:
     """Inline buttons: +1 glass, +custom, reset."""
@@ -39,13 +29,9 @@ def _water_keyboard(glasses: int) -> types.InlineKeyboardMarkup:
     )
     return markup
 
-
-# ── Public API ────────────────────────────────────────────────────────────────
-
 def is_waiting_for_input(chat_id: int) -> bool:
     """True when we're expecting a free-text number from the user."""
     return _get_state(chat_id).get("awaiting_input", False)
-
 
 def start_water_tracker(bot, message):
     """Send the water tracker panel."""
@@ -57,14 +43,8 @@ def start_water_tracker(bot, message):
         "💧 *Water Intake Tracker*\n\n"
         f"Daily goal: *{DAILY_GOAL} glasses*\n"
         f"Progress: {_progress_bar(glasses)}\n\n"
-        "Stay hydrated! 🌊"
-    )
-    bot.send_message(
-        chat_id,
-        text,
-        parse_mode="Markdown",
-        reply_markup=_water_keyboard(glasses),
-    )
+        "Stay hydrated! 🌊")
+    bot.send_message(chat_id,text, parse_mode="Markdown", reply_markup=_water_keyboard(glasses))
 
 
 def handle_callback(bot, call):
@@ -75,16 +55,13 @@ def handle_callback(bot, call):
     chat_id = call.message.chat.id
     state = _get_state(chat_id)
     action = call.data.split("_", 1)[1]
-
     if action == "add1":
         state["glasses"] += 1
         _refresh_panel(bot, call, state["glasses"])
-
     elif action == "custom":
         state["awaiting_input"] = True
         bot.answer_callback_query(call.id)
         bot.send_message(chat_id, "How many glasses did you drink? (enter a number)")
-
     elif action == "reset":
         state["glasses"] = 0
         _refresh_panel(bot, call, 0)
@@ -118,9 +95,6 @@ def receive_water_input(bot, message):
             "❌ Please enter a valid whole number (e.g. 2).",
         )
 
-
-# ── Internal ──────────────────────────────────────────────────────────────────
-
 def _refresh_panel(bot, call, glasses: int):
     """Edit the existing message to reflect the new glass count."""
     reached = glasses >= DAILY_GOAL
@@ -140,4 +114,4 @@ def _refresh_panel(bot, call, glasses: int):
             reply_markup=_water_keyboard(glasses),
         )
     except Exception:
-        pass  # message unchanged — silently ignore
+        pass 
