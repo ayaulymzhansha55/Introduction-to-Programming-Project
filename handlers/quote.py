@@ -1,12 +1,10 @@
 """
-handlers/quote.py — Daily Motivational Fitness Quote (creative feature).
-Sends a random quote with a fun fitness emoji theme.
+handlers/quote.py - Daily motivational quotes(creative feature).
+Sends a random quote with a emoji theme.
 """
-
-import random
+impory random
 from telebot import types
-
-
+  
 
     QUOTES = [
     ("The only bad workout is the one that didn't happen.", "Unknown"),
@@ -34,16 +32,15 @@ from telebot import types
 EMOJIS = ["🔥", "💪", "🏆", "⚡", "🚀", "🌟", "🎯", "🦾", "💥", "🏅"]
 
 
-
-
 def send_quote(bot, message):
-    """Send a random motivational fitness quote."""
-    quote_text, author = random.choice(QUOTES)
-    emoji = random.choice(EMOJIS)
+     """Send a random motivational fitness quote."""
+     quote_text, author = random.choice(QUOTES)
+     emoji = random.choice(EMOJIS)
+    
 
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("🔁 Another Quote", callback_data="quote_refresh"))
-
+    
     bot.send_message(
         message.chat.id,
         f"{emoji} *Daily Fitness Quote*\n\n"
@@ -53,15 +50,14 @@ def send_quote(bot, message):
         reply_markup=markup,
     )
 
-
-def handle_refresh_callback(bot, call):
+    def handle_refresh_callback(bot, call):
     """Handle the 'Another Quote' button."""
     quote_text, author = random.choice(QUOTES)
     emoji = random.choice(EMOJIS)
 
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("🔁 Another Quote", callback_data="quote_refresh"))
-
+    
     try:
         bot.edit_message_text(
             f"{emoji} *Daily Fitness Quote*\n\n"
@@ -72,7 +68,6 @@ def handle_refresh_callback(bot, call):
             parse_mode="Markdown",
             reply_markup=markup,
         )
-    except Exception:
+    except Exception as e:
         pass
-
     bot.answer_callback_query(call.id, "Here's another one! 💪")
