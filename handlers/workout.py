@@ -1,11 +1,11 @@
 """
-handlers/workout.py — Workout Plans feature.
+handlers/workout.py- Workout Plans feature.
 Offers Beginner / Intermediate / Advanced weekly plans.
 """
- 
+
 from telebot import types
- 
- 
+
+
 PLANS = {
     "beginner": {
         "title": "🟢 Beginner Plan (3 days/week)",
@@ -25,7 +25,7 @@ PLANS = {
         ],
     },
     "advanced": {
-        "title": "🔴 Advanced Plan (5 days/week — PPL split)",
+        "title": "🔴 Advanced Plan (5 days/week)",
         "days": [
             ("Monday", "Push: Bench 5×5, OHP 4×6, Incline DB 4×8, Lateral raises 4×15, Triceps 3×12"),
             ("Tuesday", "Pull: Deadlift 5×3, Weighted pull-ups 4×6, Cable rows 4×8, Face pulls 4×15, Curls 3×12"),
@@ -35,8 +35,8 @@ PLANS = {
         ],
     },
 }
- 
- 
+
+
 def _level_keyboard():
     """Inline keyboard for choosing a fitness level."""
     markup = types.InlineKeyboardMarkup(row_width=3)
@@ -46,17 +46,17 @@ def _level_keyboard():
         types.InlineKeyboardButton("🔴 Advanced", callback_data="workout_advanced"),
     )
     return markup
- 
- 
-def send_level_menu(bot, message):
-    """Ask the user to pick their fitness level."""
+
+
+    def send_level_menu(bot, message):
+        """Ask the user to pick their fitness level."""
     bot.send_message(
         message.chat.id,
         "💪 Choose your fitness level:",
         reply_markup=_level_keyboard(),
     )
- 
- 
+
+
 def handle_callback(bot, call):
     """
     Handle inline button presses for workout plans.
@@ -79,4 +79,4 @@ def handle_callback(bot, call):
         message_id=call.message.message_id,
         parse_mode="Markdown",
     )
-    bot.answer_callback_query(call.id, f"{plan['title']} loaded!")
+    bot.answer_callback_query(call.id, f"{plan['title']} loaded!")    
