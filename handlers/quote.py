@@ -8,7 +8,7 @@ from telebot import types
 
 
 
-QUOTES = [
+    QUOTES = [
     ("The only bad workout is the one that didn't happen.", "Unknown"),
     ("Take care of your body. It's the only place you have to live.", "Jim Rohn"),
     ("Fitness is not about being better than someone else. It's about being better than you used to be.", "Khloe Kardashian"),
