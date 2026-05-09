@@ -48,16 +48,16 @@ def _level_keyboard():
     return markup
 
 
-    def send_level_menu(bot, message):
-        """Ask the user to pick their fitness level."""
-    bot.send_message(
-        message.chat.id,
-        "💪 Choose your fitness level:",
-        reply_markup=_level_keyboard(),
-    )
+    def send_level_selection(bot, message):
+        """Ask the user to choose their fitness level"""
+        bot.send_message(
+            message.chat.id,
+             "💪 Choose your fitness level:",
+             reply_markup=_level_keyboard(),
+        )
 
 
-def handle_callback(bot, call):
+def handle_workout_callback(bot, call):
     """
     Handle inline button presses for workout plans.
     Expects call.data in format 'workout_<level>'.
