@@ -77,7 +77,7 @@ fitness-bot/
 
 | Name | Contribution |
 |---|---|
-| Alkeeva Dilyara | `handlers/workout.py`, bot structure |
+| Alkeyeva Dilyara | `handlers/workout.py`, bot structure |
 | Zhansha Ayaulym | `handlers/water.py`, `handlers/goals.py` |
 | Gani Aruzhan | `handlers/quote.py`, README, testing |
 
